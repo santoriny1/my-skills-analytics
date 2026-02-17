@@ -10,6 +10,11 @@ export interface IndustryDistribution {
   count: number;
 }
 
+export interface SeniorityDistribution {
+  seniority: string;
+  count: number;
+}
+
 export interface SkillGap {
   skill: string;
   count: number;
@@ -29,18 +34,43 @@ export interface AnalyticsResult {
   criticalSkillGaps: number;
   skillDistribution: SkillDistribution[];
   industryDistribution: IndustryDistribution[];
+  seniorityDistribution: SeniorityDistribution[];
   skillGaps: SkillGap[];
   concentratedExpertise: ConcentratedExpertise[];
+  topTechnologies: string[];
 }
 
-export function analyzeEmployees(employees: Employee[]): AnalyticsResult {
-  const totalEmployees = employees.length;
+export interface AnalyticsFilters {
+  industry?: string;
+  seniority?: string;
+}
+
+export function analyzeEmployees(
+  employees: Employee[],
+  filters?: AnalyticsFilters
+): AnalyticsResult {
+  // Filter employees based on provided filters
+  let filteredEmployees = employees;
+
+  if (filters?.industry && filters.industry !== "All") {
+    filteredEmployees = filteredEmployees.filter((emp) =>
+      emp.industries.includes(filters.industry as string)
+    );
+  }
+
+  if (filters?.seniority && filters.seniority !== "All") {
+    filteredEmployees = filteredEmployees.filter(
+      (emp) => emp.seniority === filters.seniority
+    );
+  }
+
+  const totalEmployees = filteredEmployees.length;
 
   // Count skill distribution
   const skillMap = new Map<string, number>();
   const skillBySeniority = new Map<string, { total: number; senior: number }>();
   
-  employees.forEach((emp) => {
+  filteredEmployees.forEach((emp) => {
     emp.skills.forEach((skill) => {
       skillMap.set(skill, (skillMap.get(skill) || 0) + 1);
       
@@ -58,10 +88,11 @@ export function analyzeEmployees(employees: Employee[]): AnalyticsResult {
     .sort((a, b) => b.count - a.count);
 
   const activeTechnologies = skillDistribution.length;
+  const topTechnologies = skillDistribution.slice(0, 5).map((item) => item.skill);
 
   // Count industry distribution
   const industryMap = new Map<string, number>();
-  employees.forEach((emp) => {
+  filteredEmployees.forEach((emp) => {
     emp.industries.forEach((industry) => {
       industryMap.set(industry, (industryMap.get(industry) || 0) + 1);
     });
@@ -72,6 +103,16 @@ export function analyzeEmployees(employees: Employee[]): AnalyticsResult {
     .sort((a, b) => b.count - a.count);
 
   const topIndustry = industryDistribution[0]?.industry || "N/A";
+
+  // Count seniority distribution
+  const seniorityMap = new Map<string, number>();
+  filteredEmployees.forEach((emp) => {
+    seniorityMap.set(emp.seniority, (seniorityMap.get(emp.seniority) || 0) + 1);
+  });
+
+  const seniorityDistribution: SeniorityDistribution[] = Array.from(seniorityMap.entries())
+    .map(([seniority, count]) => ({ seniority, count }))
+    .sort((a, b) => b.count - a.count);
 
   // Detect critical skill gaps (skills with < 5 employees)
   const skillGaps: SkillGap[] = skillDistribution
@@ -98,8 +139,10 @@ export function analyzeEmployees(employees: Employee[]): AnalyticsResult {
     criticalSkillGaps,
     skillDistribution,
     industryDistribution,
+    seniorityDistribution,
     skillGaps,
-    concentratedExpertise
+    concentratedExpertise,
+    topTechnologies,
   };
 }
 
