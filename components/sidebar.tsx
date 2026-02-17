@@ -9,7 +9,7 @@ export default function Sidebar() {
 
   const sidebarOptions = [
     {
-      id: "dashboard",
+      id: "/",
       href: "/",
       label: "Dashboard",
       icon: (
@@ -30,7 +30,7 @@ export default function Sidebar() {
       description: "Overview & Analytics"
     },
     {
-      id: "employees",
+      id: "/sensei",
       href: "/sensei",
       label: "Sensei - Creati",
       icon: (
@@ -46,7 +46,7 @@ export default function Sidebar() {
       description: "Training Hub"
     },
     {
-      id: "skills",
+      id: "/estimation",
       href: "/estimation",
       label: "AI Estimation Assistant",
       icon: (
