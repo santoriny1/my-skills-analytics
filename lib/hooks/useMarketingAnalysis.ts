@@ -63,8 +63,20 @@ export function useMarketingAnalysis(): UseMarketingAnalysisReturn {
         });
 
         if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || "Failed to generate strong verticals insights");
+          let errorMessage = `HTTP ${response.status}: Failed to generate strong verticals insights`;
+          try {
+            const errorData = await response.json();
+            errorMessage = errorData.error || errorMessage;
+          } catch {
+            // If JSON parsing fails, try to get text or use status
+            try {
+              const errorText = await response.text();
+              if (errorText) errorMessage = errorText;
+            } catch {
+              // Use the default message with status
+            }
+          }
+          throw new Error(errorMessage);
         }
 
         const result = await response.json();
@@ -107,8 +119,20 @@ export function useMarketingAnalysis(): UseMarketingAnalysisReturn {
         });
 
         if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || "Failed to generate weak verticals opportunities");
+          let errorMessage = `HTTP ${response.status}: Failed to generate weak verticals opportunities`;
+          try {
+            const errorData = await response.json();
+            errorMessage = errorData.error || errorMessage;
+          } catch {
+            // If JSON parsing fails, try to get text or use status
+            try {
+              const errorText = await response.text();
+              if (errorText) errorMessage = errorText;
+            } catch {
+              // Use the default message with status
+            }
+          }
+          throw new Error(errorMessage);
         }
 
         const result = await response.json();
@@ -152,8 +176,20 @@ export function useMarketingAnalysis(): UseMarketingAnalysisReturn {
         });
 
         if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || "Failed to generate marketing recommendations");
+          let errorMessage = `HTTP ${response.status}: Failed to generate marketing recommendations`;
+          try {
+            const errorData = await response.json();
+            errorMessage = errorData.error || errorMessage;
+          } catch {
+            // If JSON parsing fails, try to get text or use status
+            try {
+              const errorText = await response.text();
+              if (errorText) errorMessage = errorText;
+            } catch {
+              // Use the default message with status
+            }
+          }
+          throw new Error(errorMessage);
         }
 
         const result = await response.json();
@@ -198,8 +234,20 @@ export function useMarketingAnalysis(): UseMarketingAnalysisReturn {
         });
 
         if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || "Failed to generate marketing analysis");
+          let errorMessage = `HTTP ${response.status}: Failed to generate marketing analysis`;
+          try {
+            const errorData = await response.json();
+            errorMessage = errorData.error || errorMessage;
+          } catch {
+            // If JSON parsing fails, try to get text or use status
+            try {
+              const errorText = await response.text();
+              if (errorText) errorMessage = errorText;
+            } catch {
+              // Use the default message with status
+            }
+          }
+          throw new Error(errorMessage);
         }
 
         const result = await response.json();

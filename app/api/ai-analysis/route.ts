@@ -18,6 +18,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Validate section parameter
+    if (section && section !== "riskAlerts" && section !== "strategicInsights") {
+      return NextResponse.json(
+        { error: "Invalid section parameter", success: false },
+        { status: 400 }
+      );
+    }
+
     // Generate specific section or all sections
     if (section === "riskAlerts") {
       const riskAlerts = await generateRiskAlerts(analytics);

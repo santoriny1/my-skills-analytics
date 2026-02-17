@@ -22,6 +22,7 @@ export default function RiskAlerts({ skillGaps, aiAlerts, loading, onRefresh }: 
                 className="h-5 w-5 text-orange-600"
                 viewBox="0 0 20 20"
                 fill="currentColor"
+                aria-hidden="true"
               >
                 <path
                   fillRule="evenodd"
@@ -46,12 +47,14 @@ export default function RiskAlerts({ skillGaps, aiAlerts, loading, onRefresh }: 
               disabled={loading}
               className="flex items-center gap-2 px-3 py-1.5 text-xs font-medium text-orange-700 dark:text-orange-300 bg-white dark:bg-gray-800 border border-orange-300 dark:border-orange-700 rounded-lg hover:bg-orange-50 dark:hover:bg-orange-900/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               title="Generate new AI alerts"
+              aria-label={loading ? "Generating alerts" : "Refresh alerts"}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`}
                 viewBox="0 0 20 20"
                 fill="currentColor"
+                aria-hidden="true"
               >
                 <path
                   fillRule="evenodd"

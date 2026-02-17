@@ -36,7 +36,7 @@ export default function HumanCapitalPage() {
   const seniorityPercentages = analytics.seniorityDistribution.map((item) => ({
     name: item.seniority,
     value: item.count,
-    percentage: ((item.count / seniorityTotal) * 100).toFixed(1),
+    percentage: seniorityTotal > 0 ? ((item.count / seniorityTotal) * 100).toFixed(1) : "0.0",
   }));
 
   const COLORS = ["#3b82f6", "#8b5cf6", "#ec4899", "#f59e0b", "#10b981"];

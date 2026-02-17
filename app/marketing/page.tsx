@@ -57,11 +57,14 @@ export default function MarketingPage() {
 
   const totalIndustryCoverage = analytics.industryDistribution.reduce((sum, item) => sum + item.count, 0);
 
-  const industryPercentages = analytics.industryDistribution.map((item) => ({
-    name: item.industry,
-    value: item.count,
-    percentage: ((item.count / totalIndustryCoverage) * 100).toFixed(1),
-  }));
+  const industryPercentages = analytics.industryDistribution.map((item) => {
+    const percentageValue = totalIndustryCoverage > 0 ? (item.count / totalIndustryCoverage) * 100 : 0;
+    return {
+      name: item.industry,
+      value: item.count,
+      percentage: percentageValue.toFixed(1),
+    };
+  });
 
   const techStrengthByIndustry = analytics.industryDistribution.slice(0, 5).map((industry) => {
     const industryEmployees = employees.filter((emp) =>

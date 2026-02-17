@@ -36,8 +36,20 @@ export function useAIAnalysis(): UseAIAnalysisReturn {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to generate risk alerts");
+        let errorMessage = `HTTP ${response.status}: Failed to generate risk alerts`;
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.error || errorMessage;
+        } catch {
+          // If JSON parsing fails, try to get text or use status
+          try {
+            const errorText = await response.text();
+            if (errorText) errorMessage = errorText;
+          } catch {
+            // Use the default message with status
+          }
+        }
+        throw new Error(errorMessage);
       }
 
       const result = await response.json();
@@ -68,8 +80,20 @@ export function useAIAnalysis(): UseAIAnalysisReturn {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to generate strategic insights");
+        let errorMessage = `HTTP ${response.status}: Failed to generate strategic insights`;
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.error || errorMessage;
+        } catch {
+          // If JSON parsing fails, try to get text or use status
+          try {
+            const errorText = await response.text();
+            if (errorText) errorMessage = errorText;
+          } catch {
+            // Use the default message with status
+          }
+        }
+        throw new Error(errorMessage);
       }
 
       const result = await response.json();

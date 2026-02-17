@@ -63,8 +63,7 @@ export async function POST(request: NextRequest) {
     console.error("Error in marketing analysis API:", error);
     return NextResponse.json(
       { 
-        error: "Failed to generate marketing analysis",
-        details: error instanceof Error ? error.message : "Unknown error"
+        error: "Failed to generate marketing analysis"
       },
       { status: 500 }
     );

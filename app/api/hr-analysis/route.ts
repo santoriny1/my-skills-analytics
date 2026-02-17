@@ -41,8 +41,7 @@ export async function POST(request: NextRequest) {
     console.error("Error in HR analysis API:", error);
     return NextResponse.json(
       { 
-        error: "Failed to generate HR analysis",
-        details: error instanceof Error ? error.message : "Unknown error"
+        error: "Failed to generate HR analysis"
       },
       { status: 500 }
     );

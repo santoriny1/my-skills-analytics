@@ -78,6 +78,8 @@ export default function Sidebar() {
             <button
               onClick={() => setDashboardsOpen(!dashboardsOpen)}
               className="w-full flex items-center justify-between p-3 rounded-lg text-left transition-all duration-200 hover:bg-accent hover:text-accent-foreground text-muted-foreground hover:text-foreground"
+              aria-expanded={dashboardsOpen}
+              aria-controls="dashboards-panel"
             >
               <div className="flex items-center gap-3">
                 <svg
@@ -109,7 +111,7 @@ export default function Sidebar() {
               </svg>
             </button>
             {dashboardsOpen && (
-              <div className="ml-4 mt-1 space-y-1">
+              <div className="ml-4 mt-1 space-y-1" id="dashboards-panel">
                 {dashboardOptions.map((option) => {
                   const isActive = pathname === option.href;
                   

@@ -431,7 +431,7 @@ export async function generateMarketingRecommendations(
 MARKET POSITION:
 - Strong Verticals: ${strongVerticals.map(v => `${v.industry} (${v.count} employees)`).join(', ')}
 - Weak Verticals: ${weakVerticals.map(v => `${v.industry} (${v.count} employees)`).join(', ')}
-- Top Technologies: ${analytics.topTechnologies.slice(0, 5).join(', ')}
+- Top Technologies: ${(analytics.topTechnologies || []).slice(0, 5).join(', ')}
 - Total Employees: ${analytics.totalEmployees}
 
 INDUSTRY DISTRIBUTION:
