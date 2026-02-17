@@ -5,6 +5,15 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
+/**
+ * Sidebar navigation component with a collapsible "Dashboards" group and additional navigation links.
+ *
+ * Renders a fixed left-side panel titled "MySkills Analytics" that includes:
+ * - A toggleable Dashboards section containing multiple dashboard links.
+ * - Other navigation options with icons and descriptions.
+ *
+ * @returns The sidebar JSX element that provides navigation and highlights the active route.
+ */
 export default function Sidebar() {
   const pathname = usePathname();
   const [dashboardsOpen, setDashboardsOpen] = useState(true);

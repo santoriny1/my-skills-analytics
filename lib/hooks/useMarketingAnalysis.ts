@@ -33,6 +33,16 @@ interface UseMarketingAnalysisReturn {
   ) => Promise<void>;
 }
 
+/**
+ * Hook that manages generation and incremental state for marketing analysis results.
+ *
+ * Exposes async operations to generate strong-vertical insights, weak-vertical opportunities,
+ * marketing recommendations, or all sections together, while tracking per-section loading
+ * states and a single error string. The hook preserves previously fetched sections when
+ * updating individual sections.
+ *
+ * @returns An object with the current `data` (or `null`), boolean loading flags `loadingStrongVerticals`, `loadingWeakVerticals`, and `loadingRecommendations`, an `error` string or `null`, and async action functions: `generateStrongVerticals`, `generateWeakVerticals`, `generateMarketingRecommendations`, and `generateAll`.
+ */
 export function useMarketingAnalysis(): UseMarketingAnalysisReturn {
   const [data, setData] = useState<MarketingAnalysisResult | null>(null);
   const [loadingStrongVerticals, setLoadingStrongVerticals] = useState(false);

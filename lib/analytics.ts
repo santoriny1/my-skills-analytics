@@ -45,6 +45,13 @@ export interface AnalyticsFilters {
   seniority?: string;
 }
 
+/**
+ * Compute aggregated analytics for a list of employees, optionally applying industry and seniority filters.
+ *
+ * @param employees - The employee records to analyze.
+ * @param filters - Optional filters: `industry` (ignored if `"All"` or omitted) and `seniority` (ignored if `"All"` or omitted).
+ * @returns An AnalyticsResult containing aggregated counts and distributions including totalEmployees, activeTechnologies, topIndustry, criticalSkillGaps, skillDistribution, industryDistribution, seniorityDistribution, skillGaps, concentratedExpertise, and topTechnologies.
+ */
 export function analyzeEmployees(
   employees: Employee[],
   filters?: AnalyticsFilters

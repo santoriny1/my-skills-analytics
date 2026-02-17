@@ -8,6 +8,16 @@ import Filters, { FilterValues } from "@/components/filters";
 import { Card } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 
+/**
+ * Renders the Marketing Intelligence dashboard that analyzes employee data and surfaces
+ * go-to-market insights including KPIs, industry and technology breakdowns, and
+ * AI-generated strong/weak verticals and strategic recommendations.
+ *
+ * The component provides interactive filters, chart visualizations, AI-powered insight
+ * sections with manual refresh controls, and a non-fatal alert when AI analysis fails.
+ *
+ * @returns The component's JSX markup for the Marketing Intelligence page.
+ */
 export default function MarketingPage() {
   const [filters, setFilters] = useState<FilterValues>({
     industry: "All",

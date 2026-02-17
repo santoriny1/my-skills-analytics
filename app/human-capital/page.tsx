@@ -8,6 +8,13 @@ import Filters, { FilterValues } from "@/components/filters";
 import { Card } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 
+/**
+ * Renders the Human Capital Intelligence dashboard with HR metrics, interactive filters, visualizations, and AI-generated risk alerts and HR recommendations.
+ *
+ * The component computes analytics from the employee dataset, triggers AI analysis on mount and when analytics change, and exposes manual refresh controls for risk alerts and HR recommendations.
+ *
+ * @returns The JSX element for the Human Capital Intelligence dashboard
+ */
 export default function HumanCapitalPage() {
   const [filters, setFilters] = useState<FilterValues>({
     industry: "All",
