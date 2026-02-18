@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
@@ -269,7 +269,7 @@ function Notification({ message, type, isVisible, onClose }: NotificationProps) 
           {icon}
         </div>
         <div className="flex-1">
-          <p className="text-sm font-medium">{message}</p>
+          <p className="text-sm font-medium whitespace-pre-line">{message}</p>
         </div>
         <button
           onClick={onClose}
@@ -327,9 +327,9 @@ export default function SenseiCreatiPage() {
     });
   };
 
-  const hideNotification = () => {
+  const hideNotification = useCallback(() => {
     setNotification(prev => ({ ...prev, isVisible: false }));
-  };
+  }, []);
 
   const openRequestModal = (coworker: CoworkerProfile) => {
     setRequestingCoworker(coworker);
