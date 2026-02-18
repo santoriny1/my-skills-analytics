@@ -10,7 +10,7 @@ const openai = new OpenAI({
  * Helper function to clean and parse JSON from OpenAI responses
  * OpenAI sometimes wraps JSON in markdown code blocks like ```json...```
  */
-function parseAIResponse(content: string): any {
+function parseAIResponse(content: string): unknown {
   // Remove markdown code blocks if present
   let cleaned = content.trim();
   
@@ -478,5 +478,73 @@ Return ONLY a JSON array of strings:
   } catch (error) {
     console.error("Error generating marketing recommendations:", error);
     return ["Unable to generate AI-powered marketing recommendations. Please check your OpenAI API configuration."];
+  }
+}
+
+/**
+ * Generate LinkedIn post draft from an insight or recommendation
+ */
+export async function generateLinkedInPostDraft(input: {
+  insightText: string;
+  sectionName?: string;
+}): Promise<string> {
+  const { insightText, sectionName } = input;
+
+  const prompt = `You are a B2B thought leadership content strategist for a software consulting firm.
+
+TASK:
+Create a concise, high-impact LinkedIn post draft based on the insight below.
+
+INSIGHT:
+${insightText}
+
+CONTEXT SECTION:
+${sectionName || "General Workforce Insight"}
+
+REQUIREMENTS:
+1. Keep it under 120 words.
+2. Use a professional but approachable tone.
+3. Include:
+   - A compelling opening line
+   - 1-2 concrete business implications (written in generalized terms)
+   - A short call-to-action question at the end
+4. Add 3-5 relevant hashtags on the final line.
+5. Do not use markdown.
+6. Do NOT reveal private/company-specific details from the input.
+7. Never include exact numbers, percentages, client names, employee counts, industries, tools, or internal metrics from the source text.
+8. Extract only the core strategic idea and rewrite it as a general market insight.
+9. Position the author as a trusted partner for software product development, digital transformation, and engineering execution.
+10. The CTA should subtly invite companies to reach out for consulting services.
+
+Return ONLY the post text.`;
+
+  try {
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        {
+          role: "system",
+          content:
+            "You create privacy-safe, high-performing LinkedIn post drafts for software consulting firms. You always anonymize source information and keep only the strategic idea.",
+        },
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+      temperature: 0.8,
+      max_tokens: 280,
+    });
+
+    const content = completion.choices[0]?.message?.content?.trim();
+    if (!content) {
+      throw new Error("No content received from OpenAI");
+    }
+
+    return content;
+  } catch (error) {
+    console.error("Error generating LinkedIn post draft:", error);
+
+    return `One recurring pattern we see in software initiatives is that execution quality, not just strategy, defines business outcomes.\n\nTeams that align product vision, engineering practices, and delivery governance move faster with less rework and stronger ROI.\n\nWould your organization benefit from a consulting partner to accelerate product delivery with confidence?\n\n#SoftwareConsulting #DigitalTransformation #ProductDevelopment #EngineeringLeadership`;
   }
 }

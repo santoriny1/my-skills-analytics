@@ -6,6 +6,7 @@ import { analyzeEmployees } from "@/lib/analytics";
 import { useHRAnalysis } from "@/lib/hooks/useHRAnalysis";
 import Filters, { FilterValues } from "@/components/filters";
 import { Card } from "@/components/ui/card";
+import LinkedInPostModal from "@/components/linkedin-post-modal";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 
 export default function HumanCapitalPage() {
@@ -13,6 +14,7 @@ export default function HumanCapitalPage() {
     industry: "All",
     seniority: "All",
   });
+  const [linkedInSource, setLinkedInSource] = useState<{ text: string; sectionName: string } | null>(null);
   
   const { 
     data: hrData, 
@@ -53,6 +55,10 @@ export default function HumanCapitalPage() {
 
   const handleRefreshHRRecommendations = () => {
     generateHRRecommendations(analytics);
+  };
+
+  const handleOpenLinkedInPreview = (text: string, sectionName: string) => {
+    setLinkedInSource({ text, sectionName });
   };
 
   return (
@@ -320,6 +326,23 @@ export default function HumanCapitalPage() {
               hrData.riskAlerts.map((alert, index) => (
                 <div key={index} className="p-4 bg-red-50 dark:bg-red-950/20 rounded-lg border border-red-200 dark:border-red-900">
                   <p className="text-sm leading-relaxed text-red-800 dark:text-red-200">{alert}</p>
+                  <div className="mt-3">
+                    <button
+                      onClick={() => handleOpenLinkedInPreview(alert, "Risk & Gap Alerts")}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-blue-700 dark:text-blue-300 bg-white dark:bg-gray-800 border border-blue-300 dark:border-blue-700 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-3.5 w-3.5"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path d="M20.447 20.452h-3.554V14.87c0-1.33-.027-3.04-1.852-3.04-1.854 0-2.138 1.446-2.138 2.942v5.68H9.35V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 11.001-4.124 2.062 2.062 0 01-.001 4.124zM7.115 20.452H3.558V9h3.557v11.452z" />
+                      </svg>
+                      Create LinkedIn Post
+                    </button>
+                  </div>
                 </div>
               ))
             ) : (
@@ -394,6 +417,23 @@ export default function HumanCapitalPage() {
               hrData.hrRecommendations.map((recommendation, index) => (
                 <div key={index} className="p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg border border-blue-200 dark:border-blue-900">
                   <p className="text-sm leading-relaxed text-blue-800 dark:text-blue-200">{recommendation}</p>
+                  <div className="mt-3">
+                    <button
+                      onClick={() => handleOpenLinkedInPreview(recommendation, "HR Recommendations")}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-blue-700 dark:text-blue-300 bg-white dark:bg-gray-800 border border-blue-300 dark:border-blue-700 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-3.5 w-3.5"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path d="M20.447 20.452h-3.554V14.87c0-1.33-.027-3.04-1.852-3.04-1.854 0-2.138 1.446-2.138 2.942v5.68H9.35V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 11.001-4.124 2.062 2.062 0 01-.001 4.124zM7.115 20.452H3.558V9h3.557v11.452z" />
+                      </svg>
+                      Create LinkedIn Post
+                    </button>
+                  </div>
                 </div>
               ))
             ) : (
@@ -406,6 +446,13 @@ export default function HumanCapitalPage() {
           </div>
         </Card>
       </div>
+
+      <LinkedInPostModal
+        isOpen={Boolean(linkedInSource)}
+        onClose={() => setLinkedInSource(null)}
+        insightText={linkedInSource?.text || ""}
+        sectionName={linkedInSource?.sectionName}
+      />
     </div>
   );
 }
