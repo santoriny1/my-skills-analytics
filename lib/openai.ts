@@ -7,8 +7,11 @@ const openai = new OpenAI({
 });
 
 /**
- * Helper function to clean and parse JSON from OpenAI responses
- * OpenAI sometimes wraps JSON in markdown code blocks like ```json...```
+ * Extracts JSON text from a string that may be wrapped in Markdown code fences and parses it.
+ *
+ * @param content - AI response text which may include surrounding ``` or ```json code fences
+ * @returns The value produced by parsing the extracted JSON
+ * @throws SyntaxError if the extracted text is not valid JSON
  */
 function parseAIResponse(content: string): any {
   // Remove markdown code blocks if present
@@ -33,7 +36,10 @@ function parseAIResponse(content: string): any {
 }
 
 /**
- * Generate AI-powered risk and gap alerts based on workforce analytics
+ * Generate 3–5 concise, actionable risk and skill-gap alerts derived from workforce analytics.
+ *
+ * @param analytics - Workforce analytics containing totals, active technologies, top industry, critical skill gaps, skill distribution, skillGaps, and concentratedExpertise used to frame the alerts.
+ * @returns An array of risk alert strings (typically 3–5). On invalid AI output an empty array is returned; on request failure a single-item array containing a configuration fallback message is returned.
  */
 export async function generateRiskAlerts(
   analytics: AnalyticsResult
@@ -104,7 +110,10 @@ Return ONLY a JSON array of strings, nothing else. Example format:
 }
 
 /**
- * Generate AI-powered strategic insights based on workforce analytics
+ * Produce 4–6 strategic, data-driven workforce planning insights based on provided analytics.
+ *
+ * @param analytics - Workforce analytics used to identify opportunities, risks, and recommendations (e.g., totalEmployees, activeTechnologies, industry and skill distributions, critical skill gaps, concentrated expertise)
+ * @returns An array of 4–6 concise insight strings; on failure returns an array containing a single fallback message indicating an AI/configuration issue
  */
 export async function generateStrategicInsights(
   analytics: AnalyticsResult
@@ -179,7 +188,10 @@ Return ONLY a JSON array of strings, nothing else. Example format:
 }
 
 /**
- * Generate both risk alerts and strategic insights in parallel
+ * Generate risk alerts and strategic insights concurrently.
+ *
+ * @param analytics - Workforce analytics used to drive generation of alerts and insights
+ * @returns An object with `riskAlerts` (array of actionable risk alert strings) and `strategicInsights` (array of strategic recommendation strings)
  */
 export async function generateAIAnalysis(analytics: AnalyticsResult): Promise<{
   riskAlerts: string[];
@@ -197,8 +209,14 @@ export async function generateAIAnalysis(analytics: AnalyticsResult): Promise<{
 }
 
 /**
- * Generate AI-powered HR recommendations based on workforce analytics
- */
+ * Produce 3–5 specific, implementable HR recommendations based on provided workforce analytics.
+ *
+ * Uses workforce metrics (staff counts, skill gaps, concentrated senior expertise, seniority distribution)
+ * to produce concise, actionable recommendations that address talent development, retention, or recruitment
+ * and include concrete next steps.
+ *
+ * @param analytics - Workforce analytics used to tailor recommendations (total employees, skill gaps, concentrated expertise, seniority distribution, etc.)
+ * @returns An array of 3–5 actionable HR recommendation strings; returns an empty array or a single fallback message on failure.
 export async function generateHRRecommendations(
   analytics: AnalyticsResult
 ): Promise<string[]> {
@@ -263,7 +281,13 @@ Return ONLY a JSON array of strings.
 }
 
 /**
- * Generate AI-powered marketing insights for strong verticals
+ * Generate one actionable marketing insight for each provided strong industry vertical.
+ *
+ * For each entry in `strongVerticals`, returns an object containing the industry's name and a 1–2 sentence marketing insight focused on positioning, differentiation, go-to-market opportunities, or client success potential.
+ *
+ * @param analytics - Workforce analytics (used to surface top technologies and context for insights)
+ * @param strongVerticals - Array of strong verticals (each with `industry` and `count` of employees)
+ * @returns An array of objects with `{ industry: string; insight: string }`, one entry per supplied strong vertical
  */
 export async function generateStrongVerticalsInsights(
   analytics: AnalyticsResult,
@@ -341,7 +365,13 @@ Return ONLY valid JSON array format, nothing else.`;
 }
 
 /**
- * Generate AI-powered opportunities for weak verticals
+ * Generate one actionable growth opportunity for each provided weak industry vertical.
+ *
+ * Uses the provided analytics to inform recommendations and returns one object per input vertical.
+ *
+ * @param analytics - Workforce analytics used to contextualize recommendations (e.g., skill distribution).
+ * @param weakVerticals - Array of weak verticals to analyze; each item must include `industry` and `count`.
+ * @returns An array of objects with fields `industry` (the original industry name) and `opportunity` (a 1–2 sentence, actionable recommendation). If `weakVerticals` is empty, returns an empty array. On failure, returns one fallback opportunity object per input vertical indicating an AI/configuration issue.
  */
 export async function generateWeakVerticalsOpportunities(
   analytics: AnalyticsResult,
@@ -419,8 +449,16 @@ Return ONLY valid JSON array format, nothing else.`;
 }
 
 /**
- * Generate AI-powered strategic marketing recommendations
- */
+ * Produce strategic, actionable marketing recommendations tailored to the provided workforce and market data.
+ *
+ * Uses analytics (top technologies, total employees, industry distribution) and lists of strong and weak verticals
+ * to generate 4–6 concise (1–2 sentence) recommendations covering positioning, expansion, differentiation, content,
+ * acquisition priorities, and partnerships.
+ *
+ * @param analytics - Workforce and market analytics (e.g., topTechnologies, totalEmployees, industryDistribution)
+ * @param strongVerticals - Array of verticals with strong presence (industry and employee count) to inform targeted recommendations
+ * @param weakVerticals - Array of verticals with weak presence (industry and employee count) to identify growth opportunities
+ * @returns An array of recommendation strings (typically 4–6). On failure returns a single-item array with a fallback error message. */
 export async function generateMarketingRecommendations(
   analytics: AnalyticsResult,
   strongVerticals: Array<{ industry: string; count: number }>,

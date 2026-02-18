@@ -8,6 +8,17 @@ interface RiskAlertsProps {
   onRefresh?: () => void;
 }
 
+/**
+ * Render a card displaying AI-generated risk alerts or critical skill gap warnings.
+ *
+ * Renders AI alert messages when `aiAlerts` are present; otherwise shows detected skill gaps or a no-gaps message. When `onRefresh` is provided a refresh button is shown (disabled while `loading`), and when `loading` is true a generation banner and spinner are displayed.
+ *
+ * @param skillGaps - List of detected skill gaps; each item describes a skill and the number of employees with that skill.
+ * @param aiAlerts - Optional list of AI-generated alert messages. Presence of any messages replaces the skill gaps view.
+ * @param loading - Optional flag that disables the refresh control and shows a "Generating" state while true.
+ * @param onRefresh - Optional callback invoked when the user clicks the Refresh button.
+ * @returns The rendered RiskAlerts card element.
+ */
 export default function RiskAlerts({ skillGaps, aiAlerts, loading, onRefresh }: RiskAlertsProps) {
   const hasAIAlerts = aiAlerts && aiAlerts.length > 0;
   

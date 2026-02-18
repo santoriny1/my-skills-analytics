@@ -2,6 +2,19 @@ import { NextRequest, NextResponse } from "next/server";
 import { generateRiskAlerts, generateHRRecommendations } from "@/lib/openai";
 import { AnalyticsResult } from "@/lib/analytics";
 
+/**
+ * Handle POST requests to generate HR analysis sections (risk alerts and/or HR recommendations).
+ *
+ * Accepts a JSON body with an `analytics` object and an optional `section` string to request only one section.
+ *
+ * @param request - Next.js request whose JSON body must include `analytics` (AnalyticsResult) and optional `section` with value `"riskAlerts"` or `"hrRecommendations"`.
+ * @returns A JSON response containing:
+ * - On success when `section` is `"riskAlerts"`: `{ riskAlerts, success: true }`
+ * - On success when `section` is `"hrRecommendations"`: `{ hrRecommendations, success: true }`
+ * - On success with no or other `section`: `{ riskAlerts, hrRecommendations, success: true }`
+ * - On invalid input: `{ error: "Invalid analytics data provided" }` with status 400
+ * - On internal failure: `{ error: "Failed to generate HR analysis" }` with status 500
+ */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();

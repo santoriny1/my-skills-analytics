@@ -16,6 +16,18 @@ interface UseAIAnalysisReturn {
   generateAll: (analytics: AnalyticsResult) => Promise<void>;
 }
 
+/**
+ * React hook that generates AI-driven risk alerts and strategic insights from analytics and exposes the resulting data, loading states, and errors.
+ *
+ * @returns An object containing:
+ * - data: AIAnalysisResult | null — the latest generated `riskAlerts` and `strategicInsights`, or `null` if none.
+ * - loadingRiskAlerts: boolean — `true` while risk alerts are being generated.
+ * - loadingInsights: boolean — `true` while strategic insights are being generated.
+ * - error: string | null — error message when a generation request fails, or `null` when there is no error.
+ * - generateRiskAlerts: (analytics: AnalyticsResult) => Promise<void> — trigger generation of risk alerts from the provided analytics.
+ * - generateStrategicInsights: (analytics: AnalyticsResult) => Promise<void> — trigger generation of strategic insights from the provided analytics.
+ * - generateAll: (analytics: AnalyticsResult) => Promise<void> — trigger generation of both risk alerts and strategic insights from the provided analytics.
+ */
 export function useAIAnalysis(): UseAIAnalysisReturn {
   const [data, setData] = useState<AIAnalysisResult | null>(null);
   const [loadingRiskAlerts, setLoadingRiskAlerts] = useState(false);

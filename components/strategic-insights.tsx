@@ -7,6 +7,15 @@ interface StrategicInsightsProps {
   isAIPowered?: boolean;
 }
 
+/**
+ * Render a card displaying strategic insights with optional AI labeling, loading state, and a refresh control.
+ *
+ * @param insights - Array of insight text lines to display, rendered in numbered rows
+ * @param loading - When present and true, shows a loading banner, disables the refresh button, and displays a spinner state
+ * @param onRefresh - Optional callback invoked when the refresh button is clicked
+ * @param isAIPowered - When true, updates the title, subtitle, and shows an "AI" badge to indicate AI-generated recommendations
+ * @returns The JSX element for the Strategic Insights card
+ */
 export default function StrategicInsights({ insights, loading, onRefresh, isAIPowered }: StrategicInsightsProps) {
   return (
     <Card className="rounded-2xl shadow-sm border-blue-200 bg-blue-50/50 dark:bg-blue-950/10 dark:border-blue-900">

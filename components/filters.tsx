@@ -18,6 +18,15 @@ interface FiltersProps {
   onFilterChange: (filters: FilterValues) => void;
 }
 
+/**
+ * Render two dropdown filters (Industry and Seniority) and propagate their selections.
+ *
+ * Calls `onFilterChange` whenever either dropdown value changes with the current
+ * pair of `{ industry, seniority }`.
+ *
+ * @param onFilterChange - Callback invoked with the current filter values when a selection changes
+ * @returns The rendered filter controls as a React element
+ */
 export default function Filters({ onFilterChange }: FiltersProps) {
   const [industry, setIndustry] = useState<string>("All");
   const [seniority, setSeniority] = useState<string>("All");

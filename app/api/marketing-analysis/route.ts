@@ -6,6 +6,15 @@ import {
 } from "@/lib/openai";
 import { AnalyticsResult } from "@/lib/analytics";
 
+/**
+ * Handle POST requests that generate marketing insights and recommendations from analytics and verticals data.
+ *
+ * Validates the request body, then generates either a specific section (strongVerticals, weakVerticals,
+ * or marketingRecommendations) or all sections in parallel and returns the generated content.
+ *
+ * @param request - Incoming NextRequest with a JSON body containing `analytics`, `strongVerticals`, `weakVerticals`, and optional `section`.
+ * @returns A JSON NextResponse containing the generated insights for the requested section(s) and a `success` flag; returns a 400 JSON response when `analytics` is missing or invalid, and a 500 JSON response on server error.
+ */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();

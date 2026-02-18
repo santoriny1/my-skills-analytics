@@ -2,6 +2,21 @@ import { NextRequest, NextResponse } from "next/server";
 import { generateAIAnalysis, generateRiskAlerts, generateStrategicInsights } from "@/lib/openai";
 import { AnalyticsResult } from "@/lib/analytics";
 
+/**
+ * Handle POST requests to generate AI-driven analysis sections from provided analytics data.
+ *
+ * Validates the request body (requires `analytics.totalEmployees` to be a number) and an optional
+ * `section` parameter which may be `"riskAlerts"` or `"strategicInsights"`. Generates and returns
+ * the requested section or both sections when `section` is omitted.
+ *
+ * On success returns a JSON object containing `success: true` and one or both of `riskAlerts` and
+ * `strategicInsights`. Returns status 400 with an error message for invalid input or invalid
+ * `section`, and status 500 with error details on internal failure.
+ *
+ * @returns On success: an object with `success: true` and `riskAlerts` and/or `strategicInsights`.
+ *          On validation failure: a 400 response with `{ error: string, success: false }`.
+ *          On internal error: a 500 response with `{ error: string, details: string }`.
+ */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();

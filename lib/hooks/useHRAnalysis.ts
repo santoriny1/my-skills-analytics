@@ -16,6 +16,18 @@ interface UseHRAnalysisReturn {
   generateAll: (analytics: AnalyticsResult) => Promise<void>;
 }
 
+/**
+ * Manages HR analysis state and provides operations to generate risk alerts and HR recommendations from analytics.
+ *
+ * @returns An object containing:
+ * - `data`: The current HR analysis result or `null` if not available (`riskAlerts` and `hrRecommendations` arrays).
+ * - `loadingRiskAlerts`: `true` while risk alerts are being generated, `false` otherwise.
+ * - `loadingRecommendations`: `true` while HR recommendations are being generated, `false` otherwise.
+ * - `error`: Error message string if the last request failed, or `null` if no error.
+ * - `generateRiskAlerts(analytics)`: Generates risk alerts from the provided analytics and updates `data.riskAlerts` while preserving existing `hrRecommendations`.
+ * - `generateHRRecommendations(analytics)`: Generates HR recommendations from the provided analytics and updates `data.hrRecommendations` while preserving existing `riskAlerts`.
+ * - `generateAll(analytics)`: Generates both risk alerts and HR recommendations from the provided analytics and replaces `data` with the combined result.
+ */
 export function useHRAnalysis(): UseHRAnalysisReturn {
   const [data, setData] = useState<HRAnalysisResult | null>(null);
   const [loadingRiskAlerts, setLoadingRiskAlerts] = useState(false);
